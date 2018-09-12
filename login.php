@@ -8,5 +8,5 @@ $query = "SELECT * FROM users WHERE username='$username' AND password='$password
 $stmt = $con->query($query);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($result);
+echo json_encode([$username, $password]);
 ?>
