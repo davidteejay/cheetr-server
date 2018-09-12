@@ -1,6 +1,8 @@
 <?php
 require_once('conn.php');
 
+$_POST = json_decode(file_get_contents("php://input"), true);
+
 $username = $_POST['username'];
 $password = $_POST['password'];
 
