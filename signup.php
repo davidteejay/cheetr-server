@@ -20,7 +20,13 @@ if (!empty($result)){
     $query = "INSERT INTO users VALUES (:id, :firstName, :lastName, :username, :email, :phone, :password, :loginRoute)";
     $stmt = $con->prepare($query);
     $stmt->execute(array(':id' => null, ':firstName' => $fname, ':lastName' => $lname, ':username' => $username, ':email' => $email, ':phone' => $phone, ':password' => $password, ':loginRoute' => "normal"));
-    echo "Success";
+
+    $id = $con->lastInsertId();
+    $query = "SELECT * FROM users WHERE userId = '$id'";
+    $stmt = $con->query($query);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    echo json_encode($result);
 }
 
 ?>
