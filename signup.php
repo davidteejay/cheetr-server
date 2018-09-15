@@ -15,7 +15,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!empty($result)){
     echo "exists";
 } else {
-    $query = "INSERT INTO users VALUES :id, :firstName, :lastName, :username, :email, :phone, :password";
+    $query = "INSERT INTO users VALUES (:id, :firstName, :lastName, :username, :email, :phone, :password)";
     $stmt = $con->prepare($query);
     $stmt->execute(array(':id' => null, ':firstName' => $fname, ':lastName' => $lname, ':username' => $username, ':email' => $email, ':phone' => $phone, ':password' => $password));
     echo "Success";
