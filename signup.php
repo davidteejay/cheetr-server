@@ -12,7 +12,7 @@ $query = "SELECT * FROM users WHERE username = '$username'";
 $stmt = $con->query($query);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (count($result) > 0){
+if (!empty($result)){
     echo "exists";
 } else {
     $query = "INSERT INTO users VALUES :id, :firstName, :lastName, :username, :email, :phone, :password, :loginRoute";
