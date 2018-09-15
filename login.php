@@ -10,6 +10,6 @@ $query = "SELECT * FROM users WHERE username='$username' AND password='$password
 $stmt = $con->query($query);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (count($result) === 0) echo "Not Found";
+if (empty($result)) echo "Not Found";
 else echo json_encode($result);
 ?>
