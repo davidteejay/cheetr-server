@@ -3,7 +3,7 @@ require_once('conn.php');
 
 $username = $_GET['username'];
 
-$query = "SELECT * FROM user WHERE username = '$username'";
+$query = "SELECT * FROM users WHERE username = '$username'";
 $stmt = $con->query($query);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
