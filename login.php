@@ -6,7 +6,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+$query = "SELECT * FROM users WHERE username='$username' AND password='$password' AND isDeleted = 0";
 $stmt = $con->query($query);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
