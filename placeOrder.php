@@ -12,9 +12,10 @@ $dropoff = $_POST['dropoff'];
 $selectedPackage = $_POST['selectedPackage'];
 $carrier = $_POST['carrier'];
 
-$query = "INSERT INTO order (userId, driverId, recipientName, recipientPhone, pickup, dropoff, selectedPackage, carrier) VALUES (:userId, :driverId, :recipientName, :recipientPhone, :pickup, :dropoff, :selectedPackage, :carrier)";
+$query = "INSERT INTO orders (userId, driverId, recipientName, recipientPhone, pickup, dropoff, selectedPackage, carrier) VALUES (:userId, :driverId, :recipientName, :recipientPhone, :pickup, :dropoff, :selectedPackage, :carrier)";
 $stmt = $con->prepare($query);
 $stmt->execute(array(':userId' => $userId, ':driverId' => $driverId, ':recipientName' => $recipientName, ':recipientPhone' => $recipientPhone, ':pickup' => $pickup, ':dropoff' => $dropoff, ':selectedPackage' => $selectedPackage, ':carrier' => $carrier));
 
-echo 'Order placed';
+$id = $con->lastInsertId();
+echo 'Order placed ' . $id;
 ?>
