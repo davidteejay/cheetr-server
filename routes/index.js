@@ -3,7 +3,7 @@ const app = express()
 
 const Auth = require('./Auth/')
 
-app.use('/auth', Auth)
+// app.use('/auth', Auth)
 
 app.use('/*', (req, res) => res.send({
   data: [],
