@@ -11,6 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));;
 
 app.use('/v1', indexRouter);
+app.use('/*', (req, res) => res.send({
+  data: [],
+  message: 'Incorrect Route',
+  error: true
+}))
 
 // error handler
 app.listen(process.env.PORT || 3000, () => {
