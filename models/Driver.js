@@ -29,6 +29,10 @@ const driver = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	avatar: {
+		type: String,
+		required: true
+	},
 	approved: {
 		type: Boolean,
 		default: false
