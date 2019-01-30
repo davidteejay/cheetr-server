@@ -64,8 +64,8 @@ router.post('/update/:id', (req, res) => {
 router.post('/add', (req, res) => {
 	new Order({ ...req.body })
 		.save()
-		.then(() => res.send({
-			data: req.body,
+		.then((data) => res.send({
+			data,
 			message: 'Order Added Successully',
 			error: false
 		}))
