@@ -2,8 +2,8 @@ const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-const indexRouter = require('./routes/index');
-const { DEVELOPMENT_DB, PRODUCTION_DB } = require('./config/constants')
+const indexRouter = require('./routes/');
+const { PRODUCTION_DB } = require('./config/constants')
 
 const app = express();
 
