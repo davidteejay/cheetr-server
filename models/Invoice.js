@@ -26,7 +26,7 @@ const invoice = new mongoose.Schema({
 		default: false
 	}
 }, {
-		timestamps: true
-	})
+	timestamps: true
+})
 
 module.exports = mongoose.model('Invoices', invoice)

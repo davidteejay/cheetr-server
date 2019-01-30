@@ -1,10 +1,11 @@
-var createError = require('http-errors');
-var express = require('express');
-var logger = require('morgan');
+const express = require('express');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
+const { DEVELOPMENT_DB, PRODUCTION_DB } = require('./config/constants')
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -16,6 +17,12 @@ app.use('/*', (req, res) => res.send({
   message: 'Incorrect Route',
   error: true
 }))
+
+
+mongoose
+  .connect(PRODUCTION_DB)
+  .then(() => console.log('DB Connected'))
+  .catch(() => console.log('DB Offline'))
 
 // error handler
 app.listen(process.env.PORT || 3000, () => {

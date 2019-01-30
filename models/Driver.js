@@ -25,6 +25,10 @@ const driver = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	color: {
+		type: String,
+		required: true
+	},
 	approved: {
 		type: Boolean,
 		default: false
