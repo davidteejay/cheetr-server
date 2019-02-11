@@ -5,45 +5,26 @@ const User = require('../../models/User')
 const Driver = require('../../models/Driver')
 
 router.get('/', (req, res) => {
-	Driver.find({ ...req.body, isDeleted: false }, async (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
-
-		let newArr = []
-		for (let i = 0; i < data.length; i++){
-			const { username } = data[i]
-
-			await User.findOne({ username, isDeleted: false }, (error, datum) => {
-				if (error) res.send({
-					data: [],
-					message: error,
-					error: true
-				})	
-				
-				if (datum !== null){
-					newArr.push(datum)
-				}
+	Driver
+		.find({ ...req.body, isDeleted: false })
+		.then(data => {
+			res.send({
+				data,
+				message: 'Drivers Fetched Successfully',
+				error: false
 			})
-		}
-
-		res.send({
-			data: {
-				driverData: data,
-				userData: newArr
-			},
-			message: 'Drivers Fetched Successfully',
-			error: false
 		})
-	})
+		.catch(err => res.send({
+			data: [],
+			error: true,
+			message: err
+		}))
 })
 
 router.get('/:username', (req, res) => {
 	const { username } = req.params
 
-	Driver.findOne({ username, isDeleted: false }, async (err, data) => {
+	Driver.findOne({ username, isDeleted: false }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,
@@ -55,31 +36,12 @@ router.get('/:username', (req, res) => {
 			message: 'Driver not found',
 			error: true
 		})
-		else {
-			await User.findOne({ username: data.username, isDeleted: false }, (error, datum) => {
-				if (error) res.send({
-					data: [],
-					message: error,
-					error: true
-				})
-
-				if (datum === null) res.send({
-					data: [],
-					message: 'Driver not found',
-					error: true
-				})
-				else {
-					res.send({
-						data: {
-							driverData: data,
-							userData: datum
-						},
-						message: 'Driver Fetched Successfully',
-						error: false
-					})
-				}
-			})
-		}
+		
+		res.send({
+			data,
+			message: 'Driver Fetched Successfully',
+			error: false
+		})
 	})
 })
 
