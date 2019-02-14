@@ -51,8 +51,10 @@ router.post('/driverLogin', (req, res) => {
 				})
 				//res.send(data)
 
+				const result = { ...data, userData: data2 }
+				console.log(result)
 				if (data2 !== null) res.send({
-					data: { data, userData: data2 },
+					data: result,
 					message: 'Login Successful',
 					error: false
 				})
