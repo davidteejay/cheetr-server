@@ -13,7 +13,6 @@ router.post('/login', (req, res) => {
 			message: err,
 			error: true
 		})
-		//res.send(data)
 
 		if (data !== null) res.send({
 			data,
@@ -53,7 +52,7 @@ router.post('/driverLogin', (req, res) => {
 				//res.send(data)
 
 				if (data2 !== null) res.send({
-					data: data2,
+					data: { ...data, userData: data2 },
 					message: 'Login Successful',
 					error: false
 				})
