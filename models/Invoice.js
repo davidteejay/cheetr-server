@@ -19,7 +19,7 @@ const invoice = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		default: 'pending'
+		default: 'awaiting approval'
 	},
 	isDeleted: {
 		type: Boolean,
