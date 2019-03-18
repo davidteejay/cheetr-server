@@ -20,23 +20,6 @@ router.get('/', (req, res) => {
 	})
 })
 
-router.get('/driver/:driver', (req, res) => {
-	const { driver } = req.params
-	Invoice.find({ driver, isDeleted: false }, (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
-
-		res.send({
-			data,
-			message: 'Invoices fetched successfully',
-			error: false
-		})
-	})
-})
-
 router.get('/:id', (req, res) => {
 	const _id = mongo.ObjectID(req.params.id)
 

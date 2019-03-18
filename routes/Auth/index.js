@@ -42,6 +42,11 @@ router.post('/driverLogin', (req, res) => {
 			message: 'Incorrect Username or Password',
 			error: true
 		})
+		else if (!data.approved) res.send({
+			data: [],
+			message: 'You have not been approved. Please contact support for more information',
+			error: true
+		})
 		else {
 			User.findOne({ username, password, isDeleted: false }, (err2, data2) => {
 				if (err2) res.send({
