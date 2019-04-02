@@ -6,7 +6,7 @@ const Driver = require('../../models/Driver')
 
 router.get('/', (req, res) => {
 	Driver
-		.find({ ...req.body, isDeleted: false })
+		.find({ ...req.query, isDeleted: false })
 		.then(data => {
 			res.send({
 				data,

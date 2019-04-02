@@ -5,7 +5,7 @@ const { mongo } = require('mongoose')
 const Order = require('../../models/Order')
 
 router.get('/', (req, res) => {
-	Order.find({ ...req.body, isDeleted: false }, (err, data) => {
+	Order.find({ ...req.query, isDeleted: false }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,

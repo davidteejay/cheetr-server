@@ -5,7 +5,7 @@ const { mongo } = require('mongoose')
 const Invoice = require('../../models/Invoice')
 
 router.get('/', (req, res) => {
-	Invoice.find({ ...req.body, isDeleted: false }, (err, data) => {
+	Invoice.find({ ...req.query, isDeleted: false }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,
