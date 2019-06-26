@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js $PORT=3000"
+    "start": "node app.js $PORT=3000",
+    "sync": "git push origin master && git push heroku master"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

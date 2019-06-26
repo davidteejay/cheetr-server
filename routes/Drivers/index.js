@@ -7,6 +7,7 @@ const Driver = require('../../models/Driver')
 router.get('/', (req, res) => {
 	Driver
 		.find({ ...req.query, isDeleted: false })
+		.populate('user', '_id firstName lastName email phone')
 		.then(data => {
 			res.send({
 				data,
