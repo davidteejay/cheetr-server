@@ -1,14 +1,28 @@
 const mongoose = require('mongoose')
-const User = require('./User')
 
 const driver = new mongoose.Schema({
+	firstName: {
+		type: String,
+		required: true
+	},
+	lastName: {
+		type: String,
+		required: true
+	},
 	username: {
 		type: String,
 		required: true
 	},
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Users',
+	email: {
+		type: String,
+		required: true
+	},
+	phone: {
+		type: String,
+		required: true
+	},
+	password: {
+		type: String,
 		required: true
 	},
 	address: {
@@ -53,19 +67,5 @@ const driver = new mongoose.Schema({
 }, {
 		timestamps: true
 	})
-
-driver.statics.getUserData = (username) => {
-	return new Promise((resolve, reject) => {
-		User.findOne({ username }, (err, data) => {
-			if (err) {
-				console.error(err)
-				return reject(err)
-			}
-
-			resolve (data)
-		})
-	})
-	
-}
 
 module.exports = mongoose.model('Drivers', driver)

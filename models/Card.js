@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
 
-const card = new mongoose.Schema({
-	username: {
-		type: String,
-		required: true
+const { Schema } = mongoose;
+
+const card = new Schema({
+	user: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		ref: 'Users'
 	},
 	cardNumber: {
 		type: String,
@@ -20,9 +23,13 @@ const card = new mongoose.Schema({
 	expiryYear: {
 		type: String,
 		required: true
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false
 	}
 }, {
-	timestamps: true,
-})
+		timestamps: true,
+	})
 
 module.exports = mongoose.model('Cards', card)

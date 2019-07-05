@@ -2,16 +2,19 @@ const mongoose = require('mongoose')
 
 const invoice = new mongoose.Schema({
 	user: {
-		type: String,
-		required: true
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'Users'
 	},
 	driver: {
-		type: String,
-		required: true
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'Drivers'
 	},
 	date: {
 		type: Date,
-		required: true
+		required: true,
+		default: new Date()
 	},
 	amount: {
 		type: Number,
@@ -26,7 +29,7 @@ const invoice = new mongoose.Schema({
 		default: false
 	}
 }, {
-	timestamps: true
-})
+		timestamps: true
+	})
 
 module.exports = mongoose.model('Invoices', invoice)

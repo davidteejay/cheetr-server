@@ -5,49 +5,26 @@ const { mongo } = require('mongoose')
 const Invoice = require('../../models/Invoice')
 
 router.get('/', (req, res) => {
-	Invoice.find({ ...req.query, isDeleted: false }, (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
-
-		res.send({
+	Invoice.find({ ...req.query, isDeleted: false })
+		.populate('user', '_id firstName lastName username email phone')
+		.populate('driver', '_id firstName lastName username phone carrier')
+		.then(data => res.send({
 			data,
 			message: 'Invoices fetched successfully',
 			error: false
-		})
-	})
-})
-
-router.get('/:id', (req, res) => {
-	const _id = mongo.ObjectID(req.params.id)
-
-	Invoice.findOne({ _id, isDeleted: false }, (err, data) => {
-		if (err) res.send({
+		}))
+		.catch(err => res.send({
 			data: [],
 			message: err,
 			error: true
-		})
-
-		if (data === null) res.send({
-			data: [],
-			message: 'Invoice not found',
-			error: true
-		})
-		else res.send({
-			data,
-			message: 'Invoice retrieved successfully',
-			error: false
-		})
-	})
+		}))
 })
 
-router.post('/add', (req, res) => {
+router.post('/', (req, res) => {
 	new Invoice({ ...req.body })
 		.save()
-		.then(() => res.send({
-			data: req.body,
+		.then(data => res.send({
+			data,
 			message: 'Invoice added successfully',
 			error: false
 		}))
@@ -58,10 +35,35 @@ router.post('/add', (req, res) => {
 		}))
 })
 
-router.post('/update/:id', (req, res) => {
-	const _id = mongo.ObjectID(req.params.id)
+router.get('/:id', (req, res) => {
+	const { id } = req.params
 
-	Invoice.updateOne({ _id }, (err, data) => {
+	Invoice.findById(id)
+		.populate('user', '_id firstName lastName username email phone')
+		.populate('driver', '_id firstName lastName username phone carrier')
+		.then(data => {
+			if (data === null) res.send({
+				data: [],
+				message: 'Invoice not found',
+				error: true
+			})
+			else res.send({
+				data,
+				message: 'Invoice retrieved successfully',
+				error: false
+			})
+		})
+		.catch(err => res.send({
+			data: [],
+			message: err,
+			error: true
+		}))
+})
+
+router.put('/:id', (req, res) => {
+	const { id } = req.params
+
+	Invoice.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,

@@ -25,6 +25,10 @@ const user = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	cards: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Cards'
+	}],
 	loginRoute: {
 		type: String,
 		default: 'normal'
@@ -34,7 +38,7 @@ const user = new mongoose.Schema({
 		default: false
 	}
 }, {
-	timestamps: true
-})
+		timestamps: true
+	})
 
 module.exports = mongoose.model('Users', user)

@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 
 const order = new mongoose.Schema({
 	user: {
-		type: String,
-		required: true
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'Users'
 	},
 	driver: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Drivers'
 	},
 	recipientName: {
 		type: String,
@@ -14,6 +16,10 @@ const order = new mongoose.Schema({
 	},
 	recipientPhone: {
 		type: String,
+		required: true
+	},
+	price: {
+		type: Number,
 		required: true
 	},
 	pickup: {
