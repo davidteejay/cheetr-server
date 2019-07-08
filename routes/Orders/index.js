@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 		.populate('driver', '_id firstName lastName username phone carrier')
 		.then(data => res.send({
 			data,
-			message: 'Invoices fetched successfully',
+			message: 'Orders fetched successfully',
 			error: false
 		}))
 		.catch(err => res.send({
@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
 		.catch(err => res.send({
 			data: [],
 			message: err,
-			error: false
+			error: true
 		}))
 })
 
