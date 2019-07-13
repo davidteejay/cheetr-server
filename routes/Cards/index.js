@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { mongo } = require('mongoose')
 
+const validateId = require('../../helpers/validateId')
 const Card = require('../../models/Card')
 const User = require('../../models/User')
 
@@ -61,42 +62,54 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params
 
-  Card.findById(id)
-    .populate('user', '_id firstName lastName username email phone')
-    .then(data => {
-      if (data === null) res.send({
+  if (validateId(id)){
+    Card.findById(id)
+      .populate('user', '_id firstName lastName username email phone')
+      .then(data => {
+        if (data === null) res.send({
+          data: [],
+          message: 'Card not found',
+          error: true
+        })
+        else res.send({
+          data,
+          message: 'Card retrieved successfully',
+          error: false
+        })
+      })
+      .catch(err => res.send({
         data: [],
-        message: 'Card not found',
+        message: err,
         error: true
-      })
-      else res.send({
-        data,
-        message: 'Card retrieved successfully',
-        error: false
-      })
-    })
-    .catch(err => res.send({
-      data: [],
-      message: err,
-      error: true
-    }))
+      }))
+  } else res.send({
+    data: [],
+    message: 'Invalid Id',
+    error: true
+  })
 })
 
 router.put('/:id', (req, res) => {
   const { id } = req.params
 
-  Card.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
-    if (err) res.send({
-      data: [],
-      message: err,
-      error: true
-    })
+  if (validateId(id)){
+    Card.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+      if (err) res.send({
+        data: [],
+        message: err,
+        error: true
+      })
 
-    res.send({
-      data,
-      message: 'Updated Successfully',
-      error: false
+      res.send({
+        data,
+        message: 'Updated Successfully',
+        error: false
+      })
     })
+  } else res.send({
+    data: [],
+    message: 'Invalid Id',
+    error: true
   })
 })
 

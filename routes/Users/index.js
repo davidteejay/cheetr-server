@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+const validateId = require('../../helpers/validateId')
 const User = require('../../models/User')
 
 router.get('/', (req, res) => {
@@ -22,41 +23,53 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
 	const { id } = req.params
 
-	User.findById(id, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
+	if (validateId(id)){
+		User.findById(id, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
+			if (err) res.send({
+				data: [],
+				message: err,
+				error: true
+			})
 
-		if (data === null) res.send({
-			data: [],
-			message: 'No data found',
-			error: true
+			if (data === null) res.send({
+				data: [],
+				message: 'No data found',
+				error: true
+			})
+			else res.send({
+				data,
+				message: 'Data retrieved',
+				error: false
+			})
 		})
-		else res.send({
-			data,
-			message: 'Data retrieved',
-			error: false
-		})
+	} else res.send({
+		data: [],
+		message: 'Invalid Id',
+		error: true
 	})
 })
 
 router.put('/:id', (req, res) => {
 	const { id } = req.params
 
-	User.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
+	if (validateId(id)){
+		User.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+			if (err) res.send({
+				data: [],
+				message: err,
+				error: true
+			})
 
-		res.send({
-			data,
-			message: 'Updated Successfully',
-			error: false
+			res.send({
+				data,
+				message: 'Updated Successfully',
+				error: false
+			})
 		})
+	} else res.send({
+		data: [],
+		message: 'Invalid Id',
+		error: true
 	})
 })
 

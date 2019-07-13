@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { mongo } = require('mongoose')
 
+const validateId = require('../../helpers/validateId')
 const Order = require('../../models/Order')
 
 router.get('/', (req, res) => {
@@ -38,43 +39,55 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
 	const { id } = req.params
 
-	Order.findById(id)
-		.populate('user', '_id firstName lastName username email phone')
-		.populate('driver', '_id firstName lastName username phone carrier')
-		.then(data => {
-			if (data === null) res.send({
+	if (validateId(id)){
+		Order.findById(id)
+			.populate('user', '_id firstName lastName username email phone')
+			.populate('driver', '_id firstName lastName username phone carrier')
+			.then(data => {
+				if (data === null) res.send({
+					data: [],
+					message: 'Order not found',
+					error: true
+				})
+				else res.send({
+					data,
+					message: 'Order retrieved successfully',
+					error: false
+				})
+			})
+			.catch(err => res.send({
 				data: [],
-				message: 'Order not found',
+				message: err,
 				error: true
-			})
-			else res.send({
-				data,
-				message: 'Order retrieved successfully',
-				error: false
-			})
-		})
-		.catch(err => res.send({
-			data: [],
-			message: err,
-			error: true
-		}))
+			}))
+	} else res.send({
+		data: [],
+		message: 'Invalid Id',
+		error: true
+	})
 })
 
 router.put('/:id', (req, res) => {
 	const { id } = req.params
 
-	Order.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
-		if (err) res.send({
-			data: [],
-			message: err,
-			error: true
-		})
+	if (validateId(id)){
+		Order.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+			if (err) res.send({
+				data: [],
+				message: err,
+				error: true
+			})
 
-		res.send({
-			data,
-			message: 'Updated Successfully',
-			error: false
+			res.send({
+				data,
+				message: 'Updated Successfully',
+				error: false
+			})
 		})
+	} else res.send({
+		data: [],
+		message: 'Invalid Id',
+		error: true
 	})
 })
 
