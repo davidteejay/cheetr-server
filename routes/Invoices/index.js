@@ -5,8 +5,8 @@ const { mongo } = require('mongoose')
 const validateId = require('../../helpers/validateId')
 const Invoice = require('../../models/Invoice')
 
-router.get('/', (req, res) => {
-	Invoice.find({ ...req.query, isDeleted: false })
+router.get('/', async (req, res) => {
+	await Invoice.find({ ...req.query, isDeleted: false })
 		.populate('user', '_id firstName lastName username email phone')
 		.populate('driver', '_id firstName lastName username phone carrier')
 		.then(data => res.send({
@@ -21,8 +21,8 @@ router.get('/', (req, res) => {
 		}))
 })
 
-router.post('/', (req, res) => {
-	new Invoice({ ...req.body })
+router.post('/', async (req, res) => {
+	await new Invoice({ ...req.body })
 		.save()
 		.then(data => res.send({
 			data,
@@ -36,11 +36,11 @@ router.post('/', (req, res) => {
 		}))
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
 	const { id } = req.params
 
 	if (validateId(id)){
-		Invoice.findById(id)
+		await Invoice.findById(id)
 			.populate('user', '_id firstName lastName username email phone')
 			.populate('driver', '_id firstName lastName username phone carrier')
 			.then(data => {
@@ -67,11 +67,11 @@ router.get('/:id', (req, res) => {
 	})
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
 	const { id } = req.params
 
 	if (validateId(id)){
-		Invoice.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+		await Invoice.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
 			if (err) res.send({
 				data: [],
 				message: err,

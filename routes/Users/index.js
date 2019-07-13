@@ -4,8 +4,8 @@ const router = express.Router()
 const validateId = require('../../helpers/validateId')
 const User = require('../../models/User')
 
-router.get('/', (req, res) => {
-	User.find({ isDeleted: false }, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
+router.get('/', async (req, res) => {
+	await User.find({ isDeleted: false }, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,
@@ -20,11 +20,11 @@ router.get('/', (req, res) => {
 	})
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
 	const { id } = req.params
 
 	if (validateId(id)){
-		User.findById(id, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
+		await User.findById(id, { password: 0, cards: 0, loginRoute: 0, isDeleted: 0 }, (err, data) => {
 			if (err) res.send({
 				data: [],
 				message: err,
@@ -49,11 +49,11 @@ router.get('/:id', (req, res) => {
 	})
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
 	const { id } = req.params
 
 	if (validateId(id)){
-		User.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+		await User.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
 			if (err) res.send({
 				data: [],
 				message: err,
@@ -73,10 +73,10 @@ router.put('/:id', (req, res) => {
 	})
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
 	const { username, password } = req.body
 
-	User.findOne({ username, password, isDeleted: false })
+	await User.findOne({ username, password, isDeleted: false })
 		.populate('cards')
 		.then(data => {
 			if (data !== null) res.send({
@@ -97,10 +97,10 @@ router.post('/login', (req, res) => {
 		}))
 })
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
 	const { username } = req.body
 
-	User.find({ username, isDeleted: false }, (err, data) => {
+	await User.find({ username, isDeleted: false }, (err, data) => {
 		if (err) res.send({
 			data: [],
 			message: err,

@@ -6,8 +6,8 @@ const validateId = require('../../helpers/validateId')
 const Card = require('../../models/Card')
 const User = require('../../models/User')
 
-router.get('/', (req, res) => {
-  Card.find({ ...req.query, isDeleted: false })
+router.get('/', async (req, res) => {
+  await Card.find({ ...req.query, isDeleted: false })
     .populate('user', '_id firstName lastName username email phone')
     .then(data => res.send({
       data,
@@ -21,10 +21,10 @@ router.get('/', (req, res) => {
     }))
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { user } = req.body
 
-  new Card({ ...req.body })
+  await new Card({ ...req.body })
     .save()
     .then(data => {
       User.findById(user, (err, data1) => {
@@ -59,11 +59,11 @@ router.post('/', (req, res) => {
     }))
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params
 
   if (validateId(id)){
-    Card.findById(id)
+    await Card.findById(id)
       .populate('user', '_id firstName lastName username email phone')
       .then(data => {
         if (data === null) res.send({
@@ -89,11 +89,11 @@ router.get('/:id', (req, res) => {
   })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params
 
   if (validateId(id)){
-    Card.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
+    await Card.findByIdAndUpdate(id, { ...req.body }, (err, data) => {
       if (err) res.send({
         data: [],
         message: err,
