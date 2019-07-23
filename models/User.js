@@ -29,6 +29,10 @@ const user = new mongoose.Schema({
 		type: String,
 		default: 'cash'
 	},
+	card: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Cards'
+	},
 	cards: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Cards'
