@@ -53,6 +53,14 @@ const driver = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	wallet: {
+		type: Number,
+		default: 0
+	},
+	card: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Cards'
+	},
 	approved: {
 		type: Boolean,
 		default: false

@@ -22,6 +22,10 @@ const order = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
+	paymentMethod: {
+		type: String,
+		default: 'cash'
+	},
 	pickup: {
 		type: Object,
 		required: true
