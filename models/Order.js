@@ -26,6 +26,10 @@ const order = new mongoose.Schema({
 		type: String,
 		default: 'cash'
 	},
+	billingCard: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Cards',
+	},
 	pickup: {
 		type: Object,
 		required: true

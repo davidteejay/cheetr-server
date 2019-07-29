@@ -25,11 +25,15 @@ const transaction = new mongoose.Schema({
   },
   trxnRef: {
     type: String,
-    required: true
+    default: Math.floor((Math.random() * 1000000000) + 1).toString()
   },
   amount: {
     type: Number,
     required: true
+  },
+  status: {
+    type: String,
+    default: 'pending'
   },
   isDeleted: {
     type: Boolean,
